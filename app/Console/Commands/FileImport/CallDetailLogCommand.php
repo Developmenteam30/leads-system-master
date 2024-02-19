@@ -1,0 +1,45 @@
+<?php
+
+namespace App\Console\Commands\FileImport;
+
+use App\Jobs\ProcessCallDetailLogFile;
+use Carbon\Carbon;
+use Illuminate\Console\Command;
+
+class CallDetailLogCommand extends Command
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'file-import:call-detail-log {file} {date} {email}';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Import call detail log file';
+
+    /**
+     * Execute the console command.
+     *
+     * @return mixed
+     */
+    public function handle()
+    {
+        $file = $this->argument('file');
+        $date = Carbon::parse($this->argument('date'));
+        $email = $this->argument('email');
+
+        if (!file_exists($file)) {
+            $this->error('Input file does not exist.');
+            die();
+        }
+
+        ProcessCallDetailLogFile::dispatch($file, $date, $email);
+
+        return true;
+    }
+}

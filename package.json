@@ -1,0 +1,30 @@
+{
+    "private": true,
+    "scripts": {
+        "dev": "vite --host --clearScreen false",
+        "watch": "npm run dev",
+        "build": "vite build",
+        "prod": "npm run build"
+    },
+    "devDependencies": {
+        "@vitejs/plugin-vue": "^4.4.0",
+        "axios": "^1.6.0",
+        "laravel-vite-plugin": "^0.8.1",
+        "sass": "^1.69.5",
+        "vite": "^4.5.0"
+    },
+    "dependencies": {
+        "@fortawesome/fontawesome-free": "^6.4.2",
+        "@vitejs/plugin-basic-ssl": "^1.0.1",
+        "esbuild": "^0.19.5",
+        "lodash": "^4.17.21",
+        "luxon": "^3.4.3",
+        "mdb-vue-file-upload": "git+https://oauth2:gf_RfCYW1yxDy-9wzX1V@git.mdbootstrap.com/mdb/vue/mdb5/plugins/prd/file-upload",
+        "mdb-vue-ui-kit": "git+https://oauth2:gf_RfCYW1yxDy-9wzX1V@git.mdbootstrap.com/mdb/vue/mdb5/prd/mdb5-vue-ui-kit-pro-essential#master",
+        "vue": "^3.3.8",
+        "vue-router": "^4.2.5",
+        "vue-uuid": "^3.0.0",
+        "vue3-nl2br": "^0.1.5",
+        "vue3-toastify": "^0.1.14"
+    }
+}

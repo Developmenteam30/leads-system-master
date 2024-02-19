@@ -1,0 +1,401 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import '@fortawesome/fontawesome-free/css/all.css';
+
+// Variables
+@import 'variables';
+@import "mdb-vue-ui-kit/src/scss/index.pro.scss";
+@import 'mdb-vue-file-upload/src/scss/index.scss';
+@import 'vue3-toastify/dist/index.css';
+
+$my-theme: mdb-light-theme($primary, $secondary); // create the new theme using primary and secondary colors
+
+// include theme styles
+@include mdb-theme($my-theme);
+
+.dropdown-item:hover {
+    cursor: pointer;
+}
+
+.table-right-align {
+    th {
+        text-align: center;
+    }
+
+    tfoot th,
+    td {
+        text-align: right;
+    }
+
+    td:first-child {
+        text-align: left;
+    }
+
+}
+
+.table-center-align {
+    th,
+    tfoot th,
+    td {
+        text-align: center;
+    }
+
+    td:first-child {
+        text-align: left;
+    }
+
+    &.datatable-clickable-rows {
+        td:nth-child(2) {
+            text-align: left;
+        }
+    }
+
+}
+
+.table-center-align-all {
+    td:first-child {
+        text-align: center;
+    }
+}
+
+.datatable tbody tr:last-child {
+    height: auto;
+}
+
+.datatable {
+    .datatable-table {
+        width: calc(100% - 15px);
+    }
+
+    tbody,
+    thead {
+        /* Fix missing borders: https://css-tricks.com/the-backgound-clip-property-and-use-cases/ */
+        .fixed-cell {
+            background-clip: padding-box;
+        }
+
+        /* Fix the first column of the header row */
+        tr {
+            th:first-child.fixed-cell {
+                z-index: 100;
+                left: 0;
+            }
+        }
+
+        /* 7683: Handle subheaders */
+        tr:nth-child(2) {
+            th.fixed-cell {
+                top: 34px;
+            }
+        }
+
+        /* Fix transparent fixed cells */
+        tr:nth-of-type(odd) {
+            .fixed-cell {
+                background-color: inherit;
+            }
+        }
+
+        /* Fix transparent fixed cells */
+        tr:nth-of-type(even) {
+            .fixed-cell {
+                background-color: var(--#{$prefix}datatable-background-color);
+            }
+        }
+    }
+
+    /* Fix the first column of the total row */
+    tfoot {
+        tr:first-child {
+            .fixed-cell {
+                position: sticky;
+                z-index: 100;
+                background-color: var(--#{$prefix}datatable-background-color);
+            }
+        }
+    }
+
+    &.datatable-selectable-rows {
+        tbody {
+            tr {
+                td:first-child {
+                    line-height: 1.5rem;
+
+                    .form-check {
+                        display: inline;
+                        padding-left: 0;
+                        margin: 0 0.5em 0 0;
+
+                        .form-check-input {
+                            float: none;
+                            margin-left: 0;
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+    table th,
+    table td {
+        padding: 0.5rem 0.25rem;
+    }
+
+    /* Fix missing striped color in latest MDBootstrap */
+    .table > :not(caption) > * > * {
+        background-color: unset;
+    }
+
+    /* Fix missing striped color in latest MDBootstrap */
+    &.datatable-striped {
+        tbody {
+            tr:nth-of-type(odd) {
+                background-color: var(--#{$prefix}datatable-accent-bg);
+
+                .fixed-cell {
+                    background-color: var(--#{$prefix}datatable-accent-bg);
+                }
+            }
+        }
+    }
+
+    tbody {
+        tr {
+            &.active {
+                background-color: $yellow !important;
+
+                .fixed-cell {
+                    background-color: $yellow !important;
+                }
+            }
+        }
+    }
+}
+
+
+.datatable-small-font {
+    .table {
+        font-size: 0.75em;
+    }
+
+    table tfoot th,
+    table td {
+        padding: 0.5em;
+    }
+
+    table th,
+    table td {
+        border-left: 1px solid #4c4c4c !important;
+        border-right: 1px solid #4c4c4c !important;
+    }
+
+    table tfoot th {
+        font-weight: bold;
+    }
+}
+
+.modal-input-spacing .flex-row,
+.modal-input-spacing .form-outline,
+.modal-input-spacing .form-check,
+.modal-input-spacing .select-wrapper {
+    margin-bottom: 1em;
+}
+
+.modal-input-spacing .flex-row .form-outline,
+.modal-input-spacing .flex-row .select-wrapper {
+    margin-bottom: 0;
+}
+
+.company-selector {
+    min-width: 350px;
+}
+
+@mixin mdb-navbar-theme($theme) {
+    $primary: map-get($theme, primary);
+    $secondary: map-get($theme, secondary);
+    $surface: map-get($theme, surface);
+    $onSurface: map-get($theme, onSurface);
+    $onSurfaceVariant: map-get($theme, onSurfaceVariant);
+    $onPrimary: map-get($theme, onPrimary);
+    $onSecondary: map-get($theme, onSecondary);
+    $surfaceDisabled: map-get($theme, dropdownDisabled);
+
+    .navbar-brand {
+        color: $onSurface;
+
+        &:hover {
+            color: $onSurface;
+        }
+    }
+
+    .navbar-nav {
+        .nav-link {
+            color: $onSurfaceVariant;
+
+            &:hover,
+            &:focus {
+                color: $onSecondary;
+            }
+
+            &.disabled {
+                color: $surfaceDisabled;
+            }
+        }
+    }
+
+    .navbar-scroll {
+        .nav-link,
+        .fa-bars {
+            color: $onSurface;
+        }
+    }
+
+    .navbar-scrolled {
+        .nav-link,
+        .fa-bars {
+            color: $onSurfaceVariant;
+        }
+    }
+
+    .navbar-scrolled {
+        background-color: $primary;
+    }
+
+    .navbar {
+        &.navbar-light {
+            &.bg-light {
+                .breadcrumb {
+                    .breadcrumb-item {
+                        a {
+                            color: rgba(0, 0, 0, 0.55);
+
+                            &:hover {
+                                color: rgba(0, 0, 0, 0.7);
+                            }
+                        }
+
+                        + .breadcrumb-item {
+                            &:before {
+                                color: rgba(0, 0, 0, 0.55);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@include mdb-navbar-theme($my-theme);
+
+:root {
+    /* Toastify customizations to match MDBoostrap */
+    --toastify-color-error: var(--mdb-danger);
+    --toastify-color-success: var(--mdb-success);
+    --toastify-color-info: var(--mdb-info);
+    --toastify-color-warning: var(--mdb-warning);
+
+    /* Make CSS variables from MDBootstrap SASS variables */
+    --report-green: #{$green-100};
+    --report-orange: #{$orange-100};
+    --report-red: #{$red-100};
+}
+
+.Toastify__toast-body {
+    word-break: normal;
+}
+
+.input-required + label,
+.smart-select-required input + label,
+input[required] + label {
+    font-weight: bold;
+}
+
+.input-required + label:after,
+.smart-select-required input + label:after,
+input[required] + label:after {
+    content: '*';
+    font-weight: bold;
+    color: red;
+    padding-left: 0.125em;
+}
+
+/* Fix card footer always being white */
+.card {
+    &.bg-warning {
+        .card-footer {
+            background-color: rgba(var(--mdb-warning-rgb), var(--mdb-bg-opacity)) !important;
+        }
+    }
+
+    &.bg-danger {
+        .card-footer {
+            background-color: rgba(var(--mdb-danger-rgb), var(--mdb-bg-opacity)) !important;
+        }
+    }
+
+    &.bg-success {
+        .card-footer {
+            background-color: rgba(var(--mdb-success-rgb), var(--mdb-bg-opacity)) !important;
+        }
+    }
+}
+
+.performance-header-background {
+    color: #fff;
+    background-color: #1e1e1e !important;
+}
+
+.performance-tracker-view {
+    .card-footer,
+    .card-header {
+        padding: 5px;
+        line-height: 1.2rem;
+
+        h5 {
+            font-size: 1rem;
+            line-height: 1.2rem;
+
+            @include media-breakpoint-between(lg, xxl) {
+                font-size: 0.75em;
+            }
+        }
+    }
+
+    .performance-period {
+        font-size: 1.25em;
+    }
+
+    @include media-breakpoint-up(xl) {
+        .performance-period {
+            font-size: calc(1.2825rem + 0.39vw);
+        }
+    }
+
+    @include media-breakpoint-between(lg, xl) {
+        .performance-value {
+            font-size: 1em;
+            font-weight: bold;
+        }
+    }
+}
+
+.alert {
+    --mdb-alert-padding-y: 0.5em;
+}
+
+
+/* Nested subnav menus */
+.navbar {
+    .dropend {
+        padding-left: var(--mdb-dropdown-item-padding-x);
+        padding-right: var(--mdb-dropdown-item-padding-x);
+
+        > a {
+            color: #16181b !important;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+    }
+}
