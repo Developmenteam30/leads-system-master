@@ -29,6 +29,7 @@
                         <MDBInput label="Payable Training Rate (US$)" v-model="modalValuesLocal.payable_training_rate"/>
 
                         <MDBInput label="Training Duration"  type="number" v-model="modalValuesLocal.training_duration"/>
+                        <hr />
                         <h5>Special Billable Rates</h5>
                         <MDBBtn v-if="items.length < 5" color="primary" @click="addRow">Add New Row</MDBBtn>
                         <div v-if="items" class="card">
