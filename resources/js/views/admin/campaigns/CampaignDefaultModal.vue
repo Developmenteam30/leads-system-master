@@ -23,6 +23,32 @@
                         <MDBInput label="Payable Rate (US$)" v-model="modalValuesLocal.payable_rate"/>
 
                         <MDBInput label="Bonus Rate (US$)" v-model="modalValuesLocal.bonus_rate"/>
+
+                        <MDBInput v-if="authStore.hasAccessToArea('ACCESS_AREA_BILLABLE_RATES')" label="Billable Training Rate (US$)" v-model="modalValuesLocal.billable_training_rate"/>
+
+                        <MDBInput label="Payable Training Rate (US$)" v-model="modalValuesLocal.payable_training_rate"/>
+
+                        <MDBInput label="Training Duration"  type="number" v-model="modalValuesLocal.training_duration"/>
+                        <h5>Special Billable Rates</h5>
+                        <MDBBtn v-if="items.length < 5" color="primary" @click="addRow">Add New Row</MDBBtn>
+                        <div v-if="items" class="card">
+                            <br />
+                            <div v-for="(item, index) in items" :key="index" class="row">
+                                <div class="col-3">
+                                    <MDBDatepicker label="Start Date" v-model="item.formattedStartDate" inputToggle confirmDateOnSelect format="YYYY-MM-DD" :required="true"/>
+                                </div>
+                                <div class="col-3">
+                                    <MDBDatepicker label="End Date" v-model="item.formattedEndDate" inputToggle confirmDateOnSelect format="YYYY-MM-DD" :required="true"/>
+                                </div>
+                                <div class="col-4">
+                                    <MDBInput v-if="authStore.hasAccessToArea('ACCESS_AREA_BILLABLE_RATES')" label="Billable Rate (US$)" v-model="item.billable_rate"/>
+                                </div>
+                                <div class="col-2">
+                                    <MDBBtn  color="danger" @click="removeRow(index)">X</MDBBtn>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </template>
                 <template #fallback>
@@ -75,6 +101,14 @@ const emit = defineEmits([
     'reload',
 ]);
 
+const addRow = () => {
+    items.value = [...items.value, { formattedStartDate: '', formattedEndDate: '', billable_rate: '' }];
+}
+const removeRow = (index) => {
+    items.value.splice(index, 1);
+}
+
+const items = ref([{ formattedStartDate: '', formattedEndDate: '', billable_rate: '' }]);
 const isSaving = ref(false);
 const isPopulating = ref(false);
 
