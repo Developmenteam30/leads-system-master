@@ -52,6 +52,12 @@ class CampaignDefaultsController extends BaseController
             'company_name',
             'payment_type_id',
             'payment_type_name',
+            'bonus_type',
+            'tier_bonus_rates',
+            'billable_training_rate',
+            'payable_training_rate',
+            'training_duration',
+            'special_billing_rates',
         ], $request->user()->hasAccessToArea("ACCESS_AREA_BILLABLE_RATES") ? [
             'billable_rate',
             'billable_rate_formatted',
@@ -113,6 +119,26 @@ class CampaignDefaultsController extends BaseController
                 }
                 $item->payable_rate = $request->input('payable_rate');
                 $item->bonus_rate = $request->input('bonus_rate');
+
+                if($request->input('bonus_type')){
+                    $item->bonus_type = $request->input('bonus_type');
+                }
+                if($request->input('tier_bonus_rates')){
+                    $item->tier_bonus_rates = $request->input('tier_bonus_rates');
+                }
+                if($request->input('billable_training_rate')){
+                    $item->billable_training_rate = $request->input('billable_training_rate');
+                }
+                if($request->input('payable_training_rate')){
+                    $item->payable_training_rate = $request->input('payable_training_rate');
+                }
+                if($request->input('training_duration')){
+                    $item->training_duration = $request->input('training_duration');
+                }
+                if($request->input('special_billing_rates')){
+                    $item->special_billing_rates = $request->input('special_billing_rates');
+                }
+
                 $item->save();
             });
         } catch (QueryException $e) {
