@@ -23,6 +23,31 @@
 
                         <MDBInput label="Payable Rate (US$)" v-model="modalValuesLocal.payable_rate"/>
 
+                        <MDBInput label="Bonus Rate (US$)" v-model="modalValuesLocal.bonus_rate"/>
+
+                        <div class="row" style="margin-bottom: 15px;">
+                            <div class="col-2">
+                                <h5>Training</h5>
+                            </div>
+                            <div class="col-10">
+                                <hr  style="width: 100%; margin: 12px 0;"/>
+                            </div>
+                        </div>
+
+                        <MDBInput v-if="authStore.hasAccessToArea('ACCESS_AREA_BILLABLE_RATES')" label="Billable Training Rate (US$)" v-model="modalValuesLocal.billable_training_rate"/>
+
+                        <MDBInput label="Payable Training Rate (US$)" v-model="modalValuesLocal.payable_training_rate"/>
+
+                        <MDBInput label="Training Duration ( in days )"  type="number" v-model="modalValuesLocal.training_duration"/>
+
+                        <div class="row" style="margin-bottom: 15px;">
+                            <div class="col-2">
+                                <h5>Bonus</h5>
+                            </div>
+                            <div class="col-10">
+                                <hr  style="width: 100%; margin: 12px 0;"/>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-6">
                                 <MDBRadio  label="Flat Rate" v-model="modalValuesLocal.bonus_type"  :value="'flat_rate'" />
@@ -51,27 +76,28 @@
                             <MDBBtn v-if="Bonus.length < 5" color="primary" @click="addRowBonus">Add New Row</MDBBtn>
                             <hr />
                         </div>
+                        <div class="row" style="margin-bottom: 15px;">
+                            <div class="col-5">
+                                <h5>Special Billable Rates</h5>
+                            </div>
+                            <div class="col-7">
+                                <hr  style="width: 100%; margin: 12px 0;"/>
+                            </div>
+                        </div>
 
-                        <MDBInput v-if="authStore.hasAccessToArea('ACCESS_AREA_BILLABLE_RATES')" label="Billable Training Rate (US$)" v-model="modalValuesLocal.billable_training_rate"/>
-
-                        <MDBInput label="Payable Training Rate (US$)" v-model="modalValuesLocal.payable_training_rate"/>
-
-                        <MDBInput label="Training Duration ( in days )"  type="number" v-model="modalValuesLocal.training_duration"/>
-                        <h5>Special Billable Rates</h5>
-                        <hr />
                         <div v-if="items">
                             <div v-for="(item, index) in items" :key="index" class="row">
-                                <div class="col-6">
+                                <div class="col-4">
                                     <MDBDatepicker label="Start Date" v-model="item.formattedStartDate" inputToggle confirmDateOnSelect format="YYYY-MM-DD" :required="true"/>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-4">
                                     <MDBDatepicker label="End Date" v-model="item.formattedEndDate" inputToggle confirmDateOnSelect format="YYYY-MM-DD" :required="true"/>
                                 </div>
-                                <div class="col-6">
-                                    <MDBInput v-if="authStore.hasAccessToArea('ACCESS_AREA_BILLABLE_RATES')" label="Billable Rate (US$)" v-model="item.billable_rate"/>
+                                <div class="col-2">
+                                    <MDBInput v-if="authStore.hasAccessToArea('ACCESS_AREA_BILLABLE_RATES')" label="Rate $" v-model="item.billable_rate"/>
                                 </div>
-                                <div class="col-6">
-                                    <MDBBtn  color="danger" @click="removeRow(index)">Remove</MDBBtn>
+                                <div class="col-2">
+                                    <MDBBtn  color="danger" @click="removeRow(index)">X</MDBBtn>
                                 </div>
                                 <hr />
                             </div>
