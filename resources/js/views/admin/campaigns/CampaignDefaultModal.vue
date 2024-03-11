@@ -7,6 +7,7 @@
         class="modal-input-spacing"
         @shown="onModalOpen"
         staticBackdrop
+        size="lg"
     >
         <MDBModalHeader>
             <MDBModalTitle id="defaultModalLabel">{{ modalTitle }}</MDBModalTitle>
@@ -87,14 +88,17 @@
 
                         <div v-if="items">
                             <div v-for="(item, index) in items" :key="index" class="row">
-                                <div class="col-4">
+                                <div class="col-3">
                                     <MDBDatepicker label="Start Date" v-model="item.formattedStartDate" inputToggle confirmDateOnSelect format="YYYY-MM-DD" :required="true"/>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-3">
                                     <MDBDatepicker label="End Date" v-model="item.formattedEndDate" inputToggle confirmDateOnSelect format="YYYY-MM-DD" :required="true"/>
                                 </div>
                                 <div class="col-2">
-                                    <MDBInput v-if="authStore.hasAccessToArea('ACCESS_AREA_BILLABLE_RATES')" label="Rate $" v-model="item.billable_rate"/>
+                                    <MDBInput v-if="authStore.hasAccessToArea('ACCESS_AREA_BILLABLE_RATES')" label="Billable Rate $" v-model="item.billable_rate"/>
+                                </div>
+                                <div class="col-2">
+                                    <MDBInput v-if="authStore.hasAccessToArea('ACCESS_AREA_BILLABLE_RATES')" label="Payble Rate $" v-model="item.payble_rate"/>
                                 </div>
                                 <div class="col-2">
                                     <MDBBtn  color="danger" @click="removeRow(index)">X</MDBBtn>
@@ -165,7 +169,7 @@ function onModalOpen()  {
     }
 }
 const addRow = () => {
-    items.value = [...items.value, { formattedStartDate: '', formattedEndDate: '', billable_rate: '' }];
+    items.value = [...items.value, { formattedStartDate: '', formattedEndDate: '', billable_rate: '', payble_rate: '' }];
 }
 const removeRow = (index) => {
     items.value.splice(index, 1);
@@ -201,7 +205,7 @@ const save = () => {
     var sr = [];
     if(items.value.length > 0){
         items.value.forEach(e=>{
-            if(e.formattedStartDate && e.formattedStartDate != '' && e.formattedEndDate && e.formattedEndDate != '' && e.billable_rate){
+            if(e.formattedStartDate && e.formattedStartDate != '' && e.formattedEndDate && e.formattedEndDate != '' && e.billable_rate && e.payble_rate){
                 sr.push(e);
             }
         })
