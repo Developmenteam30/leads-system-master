@@ -59,7 +59,9 @@ class PerformanceTrackerOverviewController extends BaseController
         $rows = DialerAgentPerformance::query()
             ->joinEffectiveDates()
             ->leftJoin('dialer_agents', 'dialer_agents.id', 'dialer_agent_performances.agent_id')
+            ->leftJoin('dialer_agent_terminations', 'dialer_agents.id', 'dialer_agent_terminations.agent_id')
             ->select([
+                'dialer_agent_terminations.created_at AS termination_date',
                 'dialer_agent_performances.agent_id',
                 'dialer_agents.agent_name',
                 DB::raw('SUM(dialer_agent_performances.calls) AS calls'),
@@ -70,6 +72,7 @@ class PerformanceTrackerOverviewController extends BaseController
                 DB::raw('SUM(dialer_agent_performances.billable_time_override) AS billable_time_override'),
                 DB::raw('SUM(IFNULL(ROUND(dialer_agent_performances.billable_time_override/60,2),0)) AS billable_time'),
                 'dialer_agent_effective_dates.billable_rate',
+                // DB::raw("CONCAT('<h5><strong>', dialer_agent_effective_dates.end_date, '</strong></h5>') AS end_date"),
                 'dialer_agent_effective_dates.end_date',
                 DB::raw('SUM(dialer_agent_performances.billable_time_override) AS billable_time_override'),
                 DB::raw('SUM(dialer_agent_performances.over_60_min) AS over_60_min'),
@@ -105,7 +108,11 @@ class PerformanceTrackerOverviewController extends BaseController
             $row->under_5min_pct = Numbers::averagePercentageAndRound($row->under_5_min, $row->transfers, 1);
             $row->bt_per_bh = Numbers::averageAndRound($row->billable_transfers, $row->billable_time, 1);
             $row->cost_per_bt = round(Numbers::average($row->billable_time, $row->billable_transfers) * $row->billable_rate, 2);
-            $row->effectiveHireDate = $row->agent->effectiveHireDate;
+            if($row->termination_date){
+                $row->effectiveHireDate = '<strong style="color: red; font-weight: bold;">'.$row->agent->effectiveHireDate.'</strong>';
+            }else{
+                $row->effectiveHireDate = $row->agent->effectiveHireDate;
+            }
 
             $row->cost_per_sale = round(Numbers::average($row->billable_time, $row->over_60_min) * $row->billable_rate, 2);
             if (!$row->cost_per_sale) {
@@ -126,6 +133,7 @@ class PerformanceTrackerOverviewController extends BaseController
         }
 
         $allow_list = [
+            'termination_date',
             'agent_id',
             'agent_name',
             'calls',

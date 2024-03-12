@@ -63,6 +63,7 @@ class PerformanceTrackerController extends BaseController
             ->leftJoin('dialer_agents AS manager', 'manager.id', 'dialer_teams.manager_agent_id')
             ->select([
                 'dialer_agents.id',
+                'dialer_teams.id AS team_id',
                 'dialer_agents.agent_name',
                 DB::raw('dialer_teams.name AS team_name'),
                 DB::raw('manager.agent_name AS manager_name'),

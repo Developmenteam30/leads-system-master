@@ -30,12 +30,16 @@
         </MDBCol>
     </MDBRow>
 
+
     <MDBRow class="mt-lg-4">
         <MDBCol lg="4" class="mb-4 mb-lg-0">
             <PerformanceTrackerCard
                 title="Avg Transfer Duration"
                 :average="averages.successful_transfers_bill_time"
                 :value="values.successful_transfers_bill_time"
+                :cardtypeatd=true
+                :atdcolor="getColorClass(averages.successful_transfers_bill_time, values.successful_transfers_bill_time)"
+                :atdicon="getIconClass(averages.successful_transfers_bill_time, values.successful_transfers_bill_time)"
                 :formatter="formatSecondsToTime"
                 :performant="performant"
             ></PerformanceTrackerCard>
@@ -152,4 +156,28 @@ const props = defineProps({
         type: String,
     }
 });
+function getColorClass(value, average) {
+    const lowerThreshold = value * 0.8; // 20% less
+    const upperThreshold = value * 1.2; // 20% higher
+    
+    // Determine the color class based on the condition
+    if (average >= lowerThreshold && average <= upperThreshold) {
+        return 'text-primary'; // Within the threshold range
+    } else {
+        return 'text-danger'; // Outside the threshold range
+    }
+}
+function getIconClass(value, average) {
+    const lowerThreshold = value * 0.8; // 20% less
+    const upperThreshold = value * 1.2; // 20% higher
+    
+    // Determine the color class based on the condition
+    if (average < lowerThreshold) {
+        return 'down'; // Within the threshold range
+    } else if(average > upperThreshold){
+        return 'up'; // Outside the threshold range
+    } else {
+        return 'none'; // Outside the threshold range
+    }
+}
 </script>

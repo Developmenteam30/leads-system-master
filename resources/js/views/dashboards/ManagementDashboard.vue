@@ -54,7 +54,7 @@
                         </MDBCardBody>
                     </MDBCard>
                 </MDBCol>
-                <MDBCol xl="6" class="mb-4">
+                <MDBCol xl="6" class="mb-4 d-none" >
                     <MDBCard>
                         <MDBCardHeader bg="light" border="0" class="border-0 py-3">
                             <p class="mb-0"><strong>Billable Transfers</strong></p>

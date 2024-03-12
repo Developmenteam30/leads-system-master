@@ -54,12 +54,12 @@
                             :key="'col-' + colKey"
                             scope="col"
                             :style="{
-                  cursor: col.sort !== false ? 'pointer' : 'default',
-                  minWidth: col.width + 'px',
-                  maxWidth: col.width + 'px',
-                  left: col.fixed && !col.right ? col.left + 'px' : '',
-                  right: col.fixed && col.right ? 0 : '',
-                }"
+                                cursor: col.sort !== false ? 'pointer' : 'default',
+                                minWidth: col.width + 'px',
+                                maxWidth: col.width + 'px',
+                                left: col.fixed && !col.right ? col.left + 'px' : '',
+                                right: col.fixed && col.right ? 0 : '',
+                            }"
                             :class="(fixedHeader || col.fixed) && 'fixed-cell'"
                             @click="col.sort !== false && sortAndFilter(col.field)"
                             :colSpan="col?.colSpan ?? 1"
@@ -69,11 +69,11 @@
                                 class="datatable-sort-icon fas fa-arrow-up"
                                 :class="orderBy && orderKey === col.field && 'active'"
                                 :style="{
-                    transform:
-                      orderBy === 'desc' && orderKey === col.field
-                        ? 'rotate(180deg)'
-                        : 'rotate(0deg)',
-                  }"
+                                    transform:
+                                    orderBy === 'desc' && orderKey === col.field
+                                        ? 'rotate(180deg)'
+                                        : 'rotate(0deg)',
+                                }"
                             ></i>
                             {{ col.label }}
                         </th>
@@ -85,9 +85,9 @@
                     >
                     <tr
                         v-for="(row, rowKey) in data.rows.slice(
-                pageKey * rowsPerPage,
-                pageKey * rowsPerPage + rowsPerPage
-              )"
+                            pageKey * rowsPerPage,
+                            pageKey * rowsPerPage + rowsPerPage
+                        )"
                         :key="'row-' + row.mdbIndex"
                         :data-mdb-index="row.mdbIndex"
                         :class="row.selected && 'active'"
@@ -97,14 +97,14 @@
                             v-for="(col, colKey) in data.columns"
                             :key="'cell-' + colKey"
                             :style="[
-                  row.formats && row.formats[col.field],
-                  {
-                    minWidth: col.width + 'px',
-                    maxWidth: col.width + 'px',
-                    left: col.fixed && !col.right ? col.left + 'px' : false,
-                    right: col.fixed && col.right ? 0 : false,
-                  },
-                ]"
+                                row.formats && row.formats[col.field],
+                                {
+                                    minWidth: col.width + 'px',
+                                    maxWidth: col.width + 'px',
+                                    left: col.fixed && !col.right ? col.left + 'px' : false,
+                                    right: col.fixed && col.right ? 0 : false,
+                                },
+                            ]"
                             :class="col.fixed && 'fixed-cell'"
                             :contenteditable="edit ? true : null"
                             @blur="handleCellBlur($event, rowKey, col.field)"
@@ -118,11 +118,11 @@
                                 @change="handleCheckboxChange(row.mdbIndex, row.selected)"
                             />
                             <span v-html="
-                            row[col.field]
-                            ? row[col.field]
-                            : row[col.field] === 0
-                            ? 0
-                            : defaultValue
+                                row[col.field]
+                                ? row[col.field]
+                                : row[col.field] === 0
+                                ? 0
+                                : defaultValue
                             "></span>
                         </td>
                     </tr>
@@ -148,24 +148,24 @@
                             v-for="(col, colKey) in data.columns"
                             :key="'cell-' + colKey"
                             :style="[
-                  row.formats && row.formats[col.field],
-                  {
-                    minWidth: col.width + 'px',
-                    maxWidth: col.width + 'px',
-                    left: col.fixed && !col.right ? col.left + 'px' : false,
-                    right: col.fixed && col.right ? 0 : false,
-                  },
-                ]"
+                                row.formats && row.formats[col.field],
+                                {
+                                    minWidth: col.width + 'px',
+                                    maxWidth: col.width + 'px',
+                                    left: col.fixed && !col.right ? col.left + 'px' : false,
+                                    right: col.fixed && col.right ? 0 : false,
+                                },
+                            ]"
                             :class="col.fixed && 'fixed-cell'"
                             :contenteditable="edit ? true : null"
                             @blur="handleCellBlur($event, rowKey, col.field)"
                             v-html="
-                  row[col.field]
-                    ? row[col.field]
-                    : row[col.field] === 0
-                    ? 0
-                    : defaultValue
-                "
+                            row[col.field]
+                                ? row[col.field]
+                                : row[col.field] === 0
+                                ? 0
+                                : defaultValue
+                            "
                         ></th>
                     </tr>
                     </tfoot>

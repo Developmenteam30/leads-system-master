@@ -23,16 +23,30 @@
             </template>
 
             <template v-if="dataset && Object.keys(dataset).length && dataset.agent">
+                <MDBCard text="center" class="bg-opacity-25 bg-info mt-2">
+                    <MDBCardBody class="p-2">
+                        <MDBCardText><h5 class="mb-0">Agent Name: <strong>{{ displayDashIfBlank(dataset.agent.agent_name) }}</strong></h5></MDBCardText>
+                    </MDBCardBody>
+                </MDBCard>
 
                 <MDBRow class="mt-3">
+                    
                     <MDBCol col="12" md="6" lg="3">
+                        <MDBCard text="center" class="bg-opacity-25 bg-info">
+                            <MDBCardHeader class="performance-header-background"><h5 class="mb-0">Team Leaders</h5></MDBCardHeader>
+                            <MDBCardBody class="p-2">
+                                <MDBCardText><strong>{{ displayDashIfBlank(teamleaders) }}</strong></MDBCardText>
+                            </MDBCardBody>
+                        </MDBCard>
+                    </MDBCol>
+                    <!-- <MDBCol col="12" md="6" lg="3">
                         <MDBCard text="center" class="bg-opacity-25 bg-info">
                             <MDBCardHeader class="performance-header-background"><h5 class="mb-0">Agent</h5></MDBCardHeader>
                             <MDBCardBody class="p-2">
                                 <MDBCardText><strong>{{ displayDashIfBlank(dataset.agent.agent_name) }}</strong></MDBCardText>
                             </MDBCardBody>
                         </MDBCard>
-                    </MDBCol>
+                    </MDBCol> -->
                     <MDBCol col="12" md="6" lg="3">
                         <MDBCard text="center" class="bg-opacity-25 bg-info mt-3 mt-md-0">
                             <MDBCardHeader class="performance-header-background"><h5 class="mb-0">Team</h5></MDBCardHeader>
@@ -95,7 +109,17 @@
                         </template>
                     </MDBCol>
                 </MDBRow>
+                <MDBCard text="center" class="bg-opacity-25 bg-info mt-2" v-if="dataset.current_average.successful_transfers_bill_time != 0">
+                    <MDBCardBody class="p-2">
+                        <MDBCardText>
+                            <h5 class="mb-0">Avg Transfer Duration: {{dataset.current_average.successful_transfers_bill_time}}</h5>
+                            <h5 class="mb-0">Eligible Range {{dataset.current_average.successful_transfers_bill_time*0.8}} to {{dataset.current_average.successful_transfers_bill_time*1.2}} (20% +/- of Team Avg Transfer Duration)</h5>
 
+                        </MDBCardText>
+                    </MDBCardBody>
+                </MDBCard>
+
+                
                 <h5 class="mt-4">Evaluation</h5>
                 <template v-if="isEvaluation">
                     <DataField
@@ -191,6 +215,7 @@ const agentKey = ref(0);
 const writeupKey = ref(0);
 const writeupModal = ref(false);
 const writeupModalValues = ref('');
+const teamleaders = ref('');
 
 const formReactive = ref({
 	search: '',
@@ -248,16 +273,22 @@ watch(() => cloneDeep(form), (selection, prevSelection) => {
     }
 });
 
+
 const getReport = () => {
     isLoading.value = true;
     writeupKey.value++;
     writeupForm.value = writeupFormDefaults;
     evaluationForm.value = evaluationFormDefaults;
-
+    teamleaders.value = '';
     apiClient.get('reports/performance-tracker', {params: form.value})
         .then(({data}) => {
             dataset.value = data;
             evaluationForm.value = data.evaluation;
+            apiClient.get(`teams/manage/${data.agent.team_id}`)
+                .then(({data}) => {
+                    teamleaders.value = data.team_lead_agent_names_string;
+                }).catch(error => {
+            });
         }).catch(error => {
     }).finally(() => {
         isLoading.value = false;

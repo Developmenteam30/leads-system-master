@@ -4,8 +4,8 @@
         <MDBCardBody class="p-2">
             <div class="d-flex justify-content-between">
                 <div class="text-center w-50">
-                    <h6 class="value-title">{{ performant }}</h6>
-                    <h5 class="mb-0 text-primary performance-value">{{ prepend }}{{ formatter(value) }}{{ append }}</h5>
+                    <h6 class="value-title">{{ performant }} <MDBIcon v-if="atdicon == 'up'" icon="caret-up" style="color: red" size="xl"></MDBIcon><MDBIcon v-if="atdicon == 'down'" icon="caret-down" style="color: red" size="xl"></MDBIcon></h6>
+                    <h5 class="mb-0 performance-value" :class="{ 'text-primary': atdcolor == 'text-primary', 'text-danger': atdcolor == 'text-danger' }">{{ prepend }}{{ formatter(value) }}{{ append }} </h5>
                 </div>
                 <div class="text-center w-50">
                     <h6 class="value-title">Average</h6>
@@ -52,6 +52,19 @@ const props = defineProps({
         type: Boolean,
         default: true,
     },
+    cardtypeatd: {
+        type: Boolean,
+        default: false,
+    },
+    atdicon: {
+        type: String,
+        default: 'none',
+    },
+    atdcolor: {
+        type: String,
+        default: 'text-primary',
+    },
+
     append: {
         type: String,
         default: '',
