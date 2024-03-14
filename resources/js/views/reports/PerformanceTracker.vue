@@ -112,8 +112,8 @@
                 <MDBCard text="center" class="bg-opacity-25 bg-info mt-2" v-if="dataset.current_average.successful_transfers_bill_time != 0">
                     <MDBCardBody class="p-2">
                         <MDBCardText>
-                            <h5 class="mb-0">Avg Transfer Duration: {{dataset.current_average.successful_transfers_bill_time}}</h5>
-                            <h5 class="mb-0">Eligible Range {{dataset.current_average.successful_transfers_bill_time*0.8}} to {{dataset.current_average.successful_transfers_bill_time*1.2}} (20% +/- of Team Avg Transfer Duration)</h5>
+                            <!-- <h5 class="mb-0">Avg Transfer Duration: {{dataset.current_average.successful_transfers_bill_time}}</h5> -->
+                            <h5 class="mb-0">Eligible Range {{Math.floor((dataset.current_average.successful_transfers_bill_time*0.8)/60)+':'+Math.floor((dataset.current_average.successful_transfers_bill_time*0.8)%60)}} to {{Math.floor((dataset.current_average.successful_transfers_bill_time*1.2)/60)+':'+Math.floor((dataset.current_average.successful_transfers_bill_time*1.2)%60)}} (20% +/- of Team Avg Transfer Duration)</h5>
 
                         </MDBCardText>
                     </MDBCardBody>
@@ -282,6 +282,7 @@ const getReport = () => {
     teamleaders.value = '';
     apiClient.get('reports/performance-tracker', {params: form.value})
         .then(({data}) => {
+            console.log('Showdata', data);
             dataset.value = data;
             evaluationForm.value = data.evaluation;
             apiClient.get(`teams/manage/${data.agent.team_id}`)
